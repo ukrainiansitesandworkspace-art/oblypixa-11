@@ -191,12 +191,8 @@
                 border-bottom: 0
             }
 
-            .btn {
-                margin-bottom: 10px
-            }
-
-            .btn.ghost {
-                margin-left: 0
+            .actions .btn {
+                flex: 1 1 100%
             }
         }
 
@@ -239,11 +235,20 @@
             filter: brightness(1.07)
         }
 
+        .btn {
+            text-align: center
+        }
+
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px
+        }
+
         .btn.ghost {
             background: transparent;
             color: var(--ink);
-            border: 2px solid var(--ink);
-            margin-left: 8px
+            border: 2px solid var(--ink)
         }
 
         .berries {
@@ -492,8 +497,11 @@
                 <h1>Обліпиха</h1>
                 <p class="lead">Чай, кава та всіляке у форматі to go. Рівне, вул. Соборна і вул. Замкова. Чекаємо на вас
                     щодня!</p>
-                <a class="btn" href="#menu">Дивитись меню</a><a class="btn ghost"
-                    href="https://www.instagram.com/oblipyha2023/" target="_blank" rel="noopener">Наш Instagram</a>
+                <div class="actions">
+                    <a class="btn" href="#menu">Дивитись меню</a>
+                    <a class="btn ghost" href="https://www.instagram.com/oblipyha2023/" target="_blank"
+                        rel="noopener">Наш Instagram</a>
+                </div>
             </div>
         </div>
 
