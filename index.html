@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>Обліпиха — кав’ярня (демо)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg: #E9EEE3;
+            --surface: #F6F8F2;
+            --leaf: #16332B;
+            --ink: #1B2A25;
+            --muted: #5A6B63;
+            --berry: #FF8A00;
+            --berry-ink: #1B1100;
+            --line: #C9D3C3;
+            box-sizing: border-box;
+            padding-top: env(safe-area-inset-top, 0px);
+            padding-bottom: env(safe-area-inset-bottom, 0px);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root:not([data-theme="light"]) {
+                --bg: #0F1F1A;
+                --surface: #17302A;
+                --leaf: #0A1612;
+                --ink: #EAF0E6;
+                --muted: #A3B5AB;
+                --line: #2B4A41;
+            }
+        }
+
+        :root[data-theme="dark"] {
+            --bg: #0F1F1A;
+            --surface: #17302A;
+            --leaf: #0A1612;
+            --ink: #EAF0E6;
+            --muted: #A3B5AB;
+            --line: #2B4A41;
+        }
+
+        html {
+            scroll-padding-top: env(safe-area-inset-top, 0px);
+            scroll-behavior: smooth
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--ink);
+            font: 400 17px/1.6 Onest, system-ui, sans-serif
+        }
+
+        a {
+            color: inherit
+        }
+
+        :focus-visible {
+            outline: 3px solid var(--berry);
+            outline-offset: 3px
+        }
+
+        .wrap {
+            max-width: 1040px;
+            margin: 0 auto;
+            padding: 0 22px
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: Unbounded, Onest, sans-serif;
+            font-weight: 700;
+            line-height: 1.1;
+            margin: 0
+        }
+
+        header.top {
+            position: sticky;
+            top: env(safe-area-inset-top, 0px);
+            z-index: 5;
+            background: var(--bg);
+            border-bottom: 1px solid var(--line)
+        }
+
+        header.top .wrap {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 60px
+        }
+
+        .logo {
+            font-family: Unbounded, sans-serif;
+            font-weight: 700;
+            text-decoration: none;
+            font-size: 18px
+        }
+
+        nav {
+            display: flex;
+            gap: 22px;
+            font-weight: 500;
+            font-size: 15px
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--muted)
+        }
+
+        nav a:hover {
+            color: var(--ink)
+        }
+
+        @media(max-width:560px) {
+            nav {
+                gap: 14px;
+                font-size: 14px
+            }
+        }
+
+        .hero {
+            position: relative;
+            overflow: hidden;
+            padding: 64px 0 80px
+        }
+
+        .hero h1 {
+            font-size: clamp(46px, 13vw, 148px);
+            letter-spacing: -.03em;
+            color: var(--leaf)
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root:not([data-theme="light"]) .hero h1 {
+                color: var(--berry)
+            }
+        }
+
+        .hero p.lead {
+            max-width: 34ch;
+            font-size: clamp(18px, 2.4vw, 22px);
+            color: var(--ink);
+            margin: 26px 0 30px
+        }
+
+        .btn {
+            display: inline-block;
+            background: var(--berry);
+            color: var(--berry-ink);
+            font-weight: 600;
+            padding: 14px 26px;
+            border-radius: 999px;
+            text-decoration: none
+        }
+
+        .btn:hover {
+            filter: brightness(1.07)
+        }
+
+        .btn.ghost {
+            background: transparent;
+            color: var(--ink);
+            border: 2px solid var(--ink);
+            margin-left: 8px
+        }
+
+        .berries {
+            position: absolute;
+            right: -30px;
+            top: 20px;
+            width: min(46vw, 420px);
+            height: auto;
+            pointer-events: none
+        }
+
+        .berries circle {
+            animation: pop 700ms cubic-bezier(.3, 1.6, .5, 1) both
+        }
+
+        @keyframes pop {
+            from {
+                transform: scale(0);
+                opacity: 0
+            }
+        }
+
+        @media (prefers-reduced-motion:reduce) {
+            .berries circle {
+                animation: none
+            }
+        }
+
+        @media(max-width:700px) {
+            .berries {
+                opacity: .35;
+                top: 70px
+            }
+        }
+
+        section {
+            padding: 64px 0;
+            border-top: 1px solid var(--line)
+        }
+
+        section h2 {
+            font-size: clamp(28px, 5vw, 44px);
+            margin-bottom: 28px
+        }
+
+        .tabs {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 22px
+        }
+
+        .tabs button {
+            font: 600 15px Onest, sans-serif;
+            padding: 10px 20px;
+            border-radius: 999px;
+            border: 2px solid var(--line);
+            background: transparent;
+            color: var(--ink);
+            cursor: pointer
+        }
+
+        .tabs button[aria-selected="true"] {
+            background: var(--leaf);
+            border-color: var(--leaf);
+            color: #fff
+        }
+
+        .menu {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 0 48px
+        }
+
+        .menu li {
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 16px 0;
+            border-bottom: 1px dashed var(--line)
+        }
+
+        .menu b {
+            font-weight: 600
+        }
+
+        .menu small {
+            display: block;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.4;
+            margin-top: 2px
+        }
+
+        .menu .price {
+            font-family: Unbounded, sans-serif;
+            font-weight: 500;
+            white-space: nowrap
+        }
+
+        .note {
+            color: var(--muted);
+            font-size: 14px;
+            margin-top: 20px
+        }
+
+        .about {
+            display: grid;
+            grid-template-columns: 1.1fr 1fr;
+            gap: 40px;
+            align-items: start
+        }
+
+        @media(max-width:760px) {
+            .about {
+                grid-template-columns: 1fr
+            }
+        }
+
+        .about p {
+            margin: 0 0 16px;
+            max-width: 60ch
+        }
+
+        .facts {
+            background: var(--leaf);
+            color: #EAF0E6;
+            border-radius: 20px;
+            padding: 26px;
+            list-style: none;
+            margin: 0
+        }
+
+        .facts li {
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, .15)
+        }
+
+        .facts li:last-child {
+            border: 0
+        }
+
+        .facts b {
+            color: var(--berry);
+            font-weight: 600
+        }
+
+        .visit {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px
+        }
+
+        @media(max-width:760px) {
+            .visit {
+                grid-template-columns: 1fr
+            }
+        }
+
+        .hours {
+            width: 100%;
+            border-collapse: collapse
+        }
+
+        .hours td {
+            padding: 10px 0;
+            border-bottom: 1px solid var(--line)
+        }
+
+        .hours td:last-child {
+            text-align: right;
+            font-weight: 600
+        }
+
+        .hours tr.today td {
+            color: var(--berry)
+        }
+
+        #status {
+            display: inline-block;
+            margin-bottom: 14px;
+            font-weight: 600
+        }
+
+        footer {
+            background: var(--leaf);
+            color: #C7D4CB;
+            padding: 34px 0;
+            font-size: 14px
+        }
+
+        footer a {
+            color: var(--berry)
+        }
+    </style>
+</head>
+
+<body>
+    <header class="top">
+        <div class="wrap">
+            <a class="logo" href="#top">Обліпиха</a>
+            <nav aria-label="Основна навігація"><a href="#menu">Меню</a><a href="#about">Про нас</a><a href="#visit">Як
+                    знайти</a></nav>
+        </div>
+    </header>
+
+    <main id="top">
+        <div class="hero">
+            <div class="wrap">
+                <svg class="berries" viewBox="0 0 400 400" aria-hidden="true">
+                    <path d="M40 360 C140 300 220 200 330 40" stroke="#6F8F7A" stroke-width="7" fill="none"
+                        stroke-linecap="round" />
+                    <path
+                        d="M120 300 q-50-10-70-50 q50 0 70 50z M200 220 q-50-20-60-70 q55 10 60 70z M270 130 q50-10 70-60 q-55 0-70 60z"
+                        fill="#9DB8A4" />
+                    <g fill="#FF8A00">
+                        <circle cx="110" cy="318" r="22" style="animation-delay:.1s" />
+                        <circle cx="145" cy="335" r="19" style="animation-delay:.2s" />
+                        <circle cx="175" cy="262" r="24" style="animation-delay:.3s" />
+                        <circle cx="215" cy="285" r="20" style="animation-delay:.4s" />
+                        <circle cx="250" cy="195" r="23" style="animation-delay:.5s" />
+                        <circle cx="290" cy="215" r="19" style="animation-delay:.6s" />
+                        <circle cx="310" cy="110" r="21" style="animation-delay:.7s" />
+                        <circle cx="270" cy="85" r="17" style="animation-delay:.8s" />
+                    </g>
+                    <g fill="#FFC266">
+                        <circle cx="102" cy="310" r="6" />
+                        <circle cx="168" cy="254" r="7" />
+                        <circle cx="243" cy="187" r="7" />
+                        <circle cx="303" cy="103" r="6" />
+                    </g>
+                </svg>
+                <h1>Обліпиха</h1>
+                <p class="lead">Чай, кава та всіляке у форматі to go. Рівне, вул. Соборна і вул. Замкова. Чекаємо на вас
+                    щодня!</p>
+                <a class="btn" href="#menu">Дивитись меню</a><a class="btn ghost"
+                    href="https://www.instagram.com/oblipyha2023/" target="_blank" rel="noopener">Наш Instagram</a>
+            </div>
+        </div>
+
+        <section id="menu">
+            <div class="wrap">
+                <h2>Меню</h2>
+                <div class="tabs" role="tablist" aria-label="Розділи меню"></div>
+                <ul class="menu" id="menuList" role="tabpanel"></ul>
+                <p class="note">Демо-версія: позиції та ціни умовні, замініть на справжні.</p>
+            </div>
+        </section>
+
+        <section id="about">
+            <div class="wrap about">
+                <div>
+                    <h2>Про нас</h2>
+                    <p>Обліпиха — це кав’ярні у форматі to go в Рівному. Заходьте по каву, чай чи щось смачне і
+                        забирайте з собою.</p>
+                    <p>Працюємо щодня у двох точках міста: на вулицях Соборній і Замковій.</p>
+                </div>
+                <ul class="facts">
+                    <li><b>Кава, чай</b> і всіляке смачне</li>
+                    <li><b>To go</b>: швидко й з собою</li>
+                    <li><b>Дві кав’ярні</b> у Рівному</li>
+                    <li><b>Щодня</b> чекаємо на вас</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="visit">
+            <div class="wrap visit">
+                <div>
+                    <h2>Години роботи</h2>
+                    <span id="status"></span>
+                    <table class="hours" id="hours"></table>
+                </div>
+                <div>
+                    <h2>Наші кав’ярні</h2>
+                    <p><b>Рівне</b><br>вул. Соборна, 1<br>вул. Замкова, 24</p>
+
+                    <p><a class="btn" href="https://www.instagram.com/oblipyha2023/" target="_blank"
+                            rel="noopener">Написати в Instagram</a></p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="wrap">© 2026 Обліпиха · Демо-сайт · <a href="https://www.instagram.com/oblipyha2023/"
+                target="_blank" rel="noopener">@oblipyha2023</a></div>
+    </footer>
+
+    <script>
+        var MENU = {
+            "Кава": [["Еспресо", "Подвійний, 60 мл", "50"], ["Американо", "", "60"], ["Капучино", "Молоко, ніжна піна", "75"], ["Флет вайт", "", "85"], ["Раф обліпиха-мед", "Сезонний", "95"], ["Фільтр-кава", "Заварюємо на вибір", "70"]],
+            "Чай і лимонади": [["Чай з обліпихою", "Імбир, мед, лимон", "85"], ["Трав’яний збір", "Чайничок 400 мл", "80"], ["Обліпиховий лимонад", "Газований, з м’ятою", "90"], ["Какао", "На вершках", "80"]],
+            "Десерти": [["Сирники з обліпиховим соусом", "", "120"], ["Чізкейк", "Щодня свіжий", "110"], ["Круасан мигдальний", "", "85"], ["Печиво вівсяне", "", "40"]]
+        };
+        var tabs = document.querySelector('.tabs'), list = document.getElementById('menuList');
+        function show(k) {
+            list.innerHTML = MENU[k].map(function (i) { return '<li><div><b>' + i[0] + '</b>' + (i[1] ? '<small>' + i[1] + '</small>' : '') + '</div><span class="price">' + i[2] + ' ₴</span></li>' }).join('');
+            [].forEach.call(tabs.children, function (b) { b.setAttribute('aria-selected', b.textContent === k) });
+        }
+        Object.keys(MENU).forEach(function (k) { var b = document.createElement('button'); b.type = 'button'; b.setAttribute('role', 'tab'); b.textContent = k; b.onclick = function () { show(k) }; tabs.appendChild(b) });
+        show("Кава");
+
+        var days = ["Неділя", "Понеділок", "Вівторок", "Середа", "Четвер", "П’ятниця", "Субота"];
+        var H = { 0: [8, 20], 1: [8, 20], 2: [8, 20], 3: [8, 20], 4: [8, 20], 5: [8, 20], 6: [8, 20] };
+        var order = [1, 2, 3, 4, 5, 6, 0], now = new Date(), d = now.getDay(), h = now.getHours() + now.getMinutes() / 60;
+        document.getElementById('hours').innerHTML = order.map(function (n) { return '<tr' + (n === d ? ' class="today"' : '') + '><td>' + days[n] + '</td><td>' + H[n][0] + ':00–' + H[n][1] + ':00</td></tr>' }).join('');
+        var open = h >= H[d][0] && h < H[d][1];
+        document.getElementById('status').textContent = open ? 'Зараз відчинено до ' + H[d][1] + ':00' : 'Зараз зачинено';
+    </script>
+</body>
+
+</html>
